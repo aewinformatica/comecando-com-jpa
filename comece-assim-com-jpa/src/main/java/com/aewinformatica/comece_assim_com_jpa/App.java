@@ -28,6 +28,9 @@ public class App
 		
 //      Inserindo com o merge objeto gerenciado @GeneratedValue(strategy = GenerationType.IDENTITY)
       Cliente cliente = new Cliente();
+//    Atualizando um objeto (que não nasceu gerenciado) com o merge.
+      cliente.setId(1);
+      
       cliente.setNome("Construtora Medeiros");
 				
 				entityManager.getTransaction().begin();
