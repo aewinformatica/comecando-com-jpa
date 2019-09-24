@@ -6,7 +6,7 @@
 	<!-- Define persistence unit -->
 	<persistence-unit name="Cliente-PU">
 		<properties>
-		<property name="javax.persistence.jdbc.url" value="jdbc:mysql:/localhost/cadastrocliente"/>
+		<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/cadastrocliente?useTimezone=true&amp;serverTimezone=UTC"/>
 		<property name="javax.persistence.jdbc.user" value="root"/>
 		<property name="javax.persistence.jdbc.password" value="testeabc"/>
 		<property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
