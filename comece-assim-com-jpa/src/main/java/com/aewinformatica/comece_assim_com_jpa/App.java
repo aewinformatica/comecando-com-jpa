@@ -27,11 +27,16 @@ public class App
 //				cliente.setNome("Padaria nossa Alegria");
 		
 //      Inserindo com o merge objeto gerenciado @GeneratedValue(strategy = GenerationType.IDENTITY)
-      Cliente cliente = new Cliente();
+//      Cliente cliente = new Cliente();
 //    Atualizando um objeto (que não nasceu gerenciado) com o merge.
-      cliente.setId(1);
+//      cliente.setId(1);
+//      cliente.setNome("Construtora Medeiros");
       
-      cliente.setNome("Construtora Medeiros");
+      
+//    Atualizando o registro já gerenciado.
+    Cliente cliente = entityManager.find(Cliente.class, 1);
+
+
 				
 				entityManager.getTransaction().begin();
 				
@@ -39,7 +44,10 @@ public class App
 //				entityManager.persist(cliente);
 				
 //		        Inserindo com o merge objeto gerenciado @GeneratedValue(strategy = GenerationType.IDENTITY)
-		        entityManager.merge(cliente);
+//		        entityManager.merge(cliente);
+				
+//			    Atualizando o registro já gerenciado.
+			    cliente.setNome(cliente.getNome() + " Alterado");
 				
 				entityManager.getTransaction().commit();
 				
