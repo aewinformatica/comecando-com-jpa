@@ -17,18 +17,22 @@ public class App
     	
 		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("Cliente-PU");
 		EntityManager entityManager = entityManagerFactory.createEntityManager();
-		System.out.println("Hello World!");
+
 		
-		Cliente cliente = new Cliente();
-				cliente.setId(1);
-				cliente.setNome("Padaria nossa Alegria");
+//		Cliente cliente = new Cliente();
+//				cliente.setId(1);
+//				cliente.setNome("Padaria nossa Alegria");
 				
 				entityManager.getTransaction().begin();
 				
 //		        Inserindo um registro com persist.(que não nasceu gerenciado)
-				entityManager.persist(cliente);
+//				entityManager.persist(cliente);
 				
 				entityManager.getTransaction().commit();
+				
+//		        Buscando um registro.
+		        Cliente cliente = entityManager.find(Cliente.class, 1);
+		        System.out.println(cliente.getNome());
 				
 		entityManager.close();
 		entityManagerFactory.close();
