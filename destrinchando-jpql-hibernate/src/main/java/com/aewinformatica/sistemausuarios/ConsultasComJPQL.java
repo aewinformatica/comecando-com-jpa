@@ -23,7 +23,7 @@ public class ConsultasComJPQL {
 		
 //		primeirasConsultas(entityManager);
 //		EscolhendoORetorno(entityManager);
-		FazendoProjecoes(entityManager);
+//		FazendoProjecoes(entityManager);
 		
 					  entityManager.close();
 					  entityManagerFactory.close();
@@ -87,5 +87,21 @@ public class ConsultasComJPQL {
 		List<Object[]>listaArr = typedQueryArr.getResultList();
 		
 		listaArr.forEach(arr->System.out.println(String.format("%s, %s, %s", arr)));
+	}
+	
+	public static void PassandoParametros(EntityManager entityManager) {
+		
+		//parametro IdUsuario
+		String jpql = "select u from Usuario where u.id = idUsuario";
+		
+		//encavalando os metodos
+		TypedQuery<Usuario>typedQuery = entityManager.
+				createQuery(jpql,Usuario.class)
+				//nome do paramentro dentro da JPQL	
+				.setParameter("idUsuario", 1);
+					Usuario usuario = typedQuery.getSingleResult();
+					
+	   System.out.println(usuario.getId() + ", " + usuario.getNome());
+		
 	}
 }
