@@ -25,7 +25,8 @@ public class ConsultasComJPQL {
 //		primeirasConsultas(entityManager);
 //		EscolhendoORetorno(entityManager);
 //		FazendoProjecoes(entityManager);
-		PassandoParametros(entityManager);
+//		PassandoParametros(entityManager);
+		FazendoJoins(entityManager);
 		
 					  entityManager.close();
 					  entityManagerFactory.close();
@@ -124,6 +125,16 @@ public class ConsultasComJPQL {
 					Usuario usuarioLog = typedQueryLog.getSingleResult();
 					
 	   System.out.println(usuarioLog.getId() + ", " + usuarioLog.getNome());
+		
+	}
+	
+	public static void FazendoJoins(EntityManager entityManager) {
+		String jpql="select u from Usuario u inner join u.dominio d where d.id = 1";
+		
+		TypedQuery<Usuario> typedQuery = entityManager.createQuery(jpql, Usuario.class);
+			List<Usuario>listaUsuarios = typedQuery.getResultList();
+			
+			listaUsuarios.forEach(u->System.out.println(u.getId() + ", " + u.getNome()));
 		
 	}
 }
