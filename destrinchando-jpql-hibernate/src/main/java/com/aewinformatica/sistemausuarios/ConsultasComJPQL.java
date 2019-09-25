@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import com.aewinformatica.sistemausuarios.model.Usuario;
@@ -40,6 +41,14 @@ public class ConsultasComJPQL {
 	     Usuario usuario = typedQuerySing.getSingleResult();
 	     
 	     System.out.println(usuario.getId() + " ," + usuario.getNome());
+	     
+//			Consulta Usando Query do javax.persistence temos que fazer Cast		  
+		    String jpqlCast = "select u from Usuario u where u.id = 2";
+		    
+		    Query query = entityManager.createQuery(jpqlCast);
+		     Usuario usuario2 = (Usuario) query.getSingleResult();
+		     
+		     System.out.println(usuario2.getId() + " ," + usuario2.getNome());
 	    					
 				
 				
