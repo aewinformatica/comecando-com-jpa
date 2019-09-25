@@ -24,6 +24,7 @@ public class ConsultasComJPQL {
 //		primeirasConsultas(entityManager);
 //		EscolhendoORetorno(entityManager);
 //		FazendoProjecoes(entityManager);
+		PassandoParametros(entityManager);
 		
 					  entityManager.close();
 					  entityManagerFactory.close();
@@ -92,7 +93,7 @@ public class ConsultasComJPQL {
 	public static void PassandoParametros(EntityManager entityManager) {
 		
 		//parametro IdUsuario
-		String jpql = "select u from Usuario where u.id = idUsuario";
+		String jpql = "select u from Usuario u where u.id = :idUsuario";
 		
 		//encavalando os metodos
 		TypedQuery<Usuario>typedQuery = entityManager.
@@ -102,6 +103,19 @@ public class ConsultasComJPQL {
 					Usuario usuario = typedQuery.getSingleResult();
 					
 	   System.out.println(usuario.getId() + ", " + usuario.getNome());
+	   
+	   
+		//parametro loginUsuario
+		String jpqlLog = "select u from Usuario u where u.login = :loginUsuario";
+		
+		//encavalando os metodos
+		TypedQuery<Usuario>typedQueryLog = entityManager.
+				createQuery(jpqlLog,Usuario.class)
+				//nome do paramentro dentro da JPQL	
+				.setParameter("loginUsuario", "ria");
+					Usuario usuarioLog = typedQueryLog.getSingleResult();
+					
+	   System.out.println(usuarioLog.getId() + ", " + usuarioLog.getNome());
 		
 	}
 }
