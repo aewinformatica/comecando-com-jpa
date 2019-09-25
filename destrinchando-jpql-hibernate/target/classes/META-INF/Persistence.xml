@@ -1,0 +1,33 @@
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.2"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+
+
+	<!-- Define persistence unit -->
+	<persistence-unit name="Cliente-PU">
+		<properties>
+<!-- 		OBSERVAR AS MARCAÇÔES DOS ; -->
+		<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/cadastrousuarios?createDatabaseIfNotExist=true&amp;useTimezone=true&amp;serverTimezone=UTC"/>
+		<property name="javax.persistence.jdbc.user" value="root"/>
+		<property name="javax.persistence.jdbc.password" value="testeabc"/>
+		<property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+		
+		<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect"/>
+		
+<!-- 		Exibir no console o SQL -->
+		<property name="hibernate.show_sql" value="true"/>
+		
+<!-- 		Não colocar tudo em uma linha só -->
+		<property name="hibernate.format_sql" value="true"/>
+		
+<!-- 			Deletar e criar Tabelas sempre que executar -->
+		<property name="javax.persistence.schema-generation.database.action"
+                      value="drop-and-create"/>
+                      
+<!--                  Qual script deve ser carregado ao iniciar      -->
+            <property name="javax.persistence.sql-load-script-source"
+                      value="META-INF/banco-de-dados/carregar-dados.sql" />
+
+		</properties>
+	</persistence-unit>
+</persistence>
