@@ -30,9 +30,20 @@ public class ConsultasComJPQL {
 		String jpql = "select u from Usuario u";
 		
 		TypedQuery<Usuario>typedQuery = entityManager.createQuery(jpql,Usuario.class);
-				List<Usuario> lista =  typedQuery.getResultList();
+	List<Usuario> lista =  typedQuery.getResultList();
+				  lista.forEach(u-> System.out.println(u.getId() + ", " + u.getNome()));
+		
+//		Consulta Usando SingleResult		  
+	    String jpqlSing = "select u from Usuario u where u.id = 1";
+	    
+	    TypedQuery<Usuario>typedQuerySing = entityManager.createQuery(jpqlSing,Usuario.class);
+	     Usuario usuario = typedQuerySing.getSingleResult();
+	     
+	     System.out.println(usuario.getId() + " ," + usuario.getNome());
+	    					
 				
-				lista.forEach(u-> System.out.println(u.getId() + ", " + u.getNome()));
+				
+				
 		
 	}
 }
