@@ -67,5 +67,14 @@ public class ConsultasComJPQL {
 		Dominio dominio =  typedQuery.getSingleResult();
 		
 				  System.out.println(dominio.getId() + ", " + dominio.getNome());
+				  
+	    String jpqlNom = "select u.nome from Usuario u";
+	    
+	    //definindo o tipo de dado retornado String de Nomes e Listando usando ForEach e Lambda
+	    TypedQuery<String> typedQueryNom = entityManager.createQuery(jpqlNom,String.class);
+	    
+	    List<String> ListaNom = typedQueryNom.getResultList();
+	    
+	   ListaNom.forEach(nome->System.out.println(nome));
 	}
 }
