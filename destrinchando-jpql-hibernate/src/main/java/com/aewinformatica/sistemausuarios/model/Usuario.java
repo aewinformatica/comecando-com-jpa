@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -24,6 +25,9 @@ public class Usuario {
     
     @ManyToOne
     private Dominio dominio;
+    
+    @OneToOne(mappedBy = "usuario")
+    private Configuracao configuracao;
 
 	/**
 	 * @return the id
@@ -108,6 +112,14 @@ public class Usuario {
 	public void setDominio(Dominio dominio) {
 		this.dominio = dominio;
 	}
+	
+  public Configuracao getConfiguracao() {
+  return configuracao;
+}
+
+public void setConfiguracao(Configuracao configuracao) {
+  this.configuracao = configuracao;
+}
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()

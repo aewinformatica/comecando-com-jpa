@@ -9,6 +9,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import com.aewinformatica.sistemausuarios.dto.UsuarioDTO;
+import com.aewinformatica.sistemausuarios.model.Configuracao;
 import com.aewinformatica.sistemausuarios.model.Dominio;
 import com.aewinformatica.sistemausuarios.model.Usuario;
 
@@ -26,13 +27,16 @@ public class ConsultasComJPQL {
 //		EscolhendoORetorno(entityManager);
 //		FazendoProjecoes(entityManager);
 //		PassandoParametros(entityManager);
-		FazendoJoins(entityManager);
+//		FazendoJoins(entityManager);
+		FazendoLeftJoin(entityManager);
 		
 					  entityManager.close();
 					  entityManagerFactory.close();
 		
 	}
 	
+
+
 	public static void primeirasConsultas(EntityManager entityManager) {
 		
 		String jpql = "select u from Usuario u";
@@ -129,12 +133,37 @@ public class ConsultasComJPQL {
 	}
 	
 	public static void FazendoJoins(EntityManager entityManager) {
+		//o uso do inner é facultativo
 		String jpql="select u from Usuario u inner join u.dominio d where d.id = 1";
 		
 		TypedQuery<Usuario> typedQuery = entityManager.createQuery(jpql, Usuario.class);
 			List<Usuario>listaUsuarios = typedQuery.getResultList();
 			
 			listaUsuarios.forEach(u->System.out.println(u.getId() + ", " + u.getNome()));
+		
+	}
+	
+	public static void FazendoLeftJoin(EntityManager entityManager) {
+		
+		//o uso do outer é facultativo
+		String jpql = "select u, c from Usuario u left outer join u.configuracao c";
+		
+		TypedQuery<Object[]>typedQuery = entityManager.createQuery(jpql, Object[]	.class);
+		
+		List<Object[]>lista = typedQuery.getResultList();
+		lista.forEach(arr->{
+						//fazendo Cast nos objetos
+			String out = ((Usuario) arr[0]).getNome();
+						 if(arr[1] == null) {
+							 out += ", NULL";
+						 }
+						 else {
+							 //fazendo Cast nos objetos
+							 out += ", " + ((Configuracao) arr[1]).getId();
+						 }
+						 System.out.println(out);
+		});
+		
 		
 	}
 }
