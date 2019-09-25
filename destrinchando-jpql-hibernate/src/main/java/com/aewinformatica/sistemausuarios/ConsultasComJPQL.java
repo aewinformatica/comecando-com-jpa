@@ -8,6 +8,7 @@ import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import com.aewinformatica.sistemausuarios.dto.UsuarioDTO;
 import com.aewinformatica.sistemausuarios.model.Dominio;
 import com.aewinformatica.sistemausuarios.model.Usuario;
 
@@ -88,6 +89,13 @@ public class ConsultasComJPQL {
 		List<Object[]>listaArr = typedQueryArr.getResultList();
 		
 		listaArr.forEach(arr->System.out.println(String.format("%s, %s, %s", arr)));
+		
+		String jpqlDto = "select new com.algaworks.sistemausuarios.dto.UsuarioDTO(id, login, nome)" +
+                "from Usuario";
+        TypedQuery<UsuarioDTO> typedQueryDto = entityManager.createQuery(jpqlDto, UsuarioDTO.class);
+        List<UsuarioDTO> listaDto = typedQueryDto.getResultList();
+        listaDto.forEach(u -> System.out.println("DTO: " + u.getId() + ", " + u.getNome()));
+		
 	}
 	
 	public static void PassandoParametros(EntityManager entityManager) {
