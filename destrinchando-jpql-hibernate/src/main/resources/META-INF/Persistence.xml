@@ -4,7 +4,7 @@
 
 
 	<!-- Define persistence unit -->
-	<persistence-unit name="Cliente-PU">
+	<persistence-unit name="Usuarios-PU">
 		<properties>
 <!-- 		OBSERVAR AS MARCAÇÔES DOS ; -->
 		<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/cadastrousuarios?createDatabaseIfNotExist=true&amp;useTimezone=true&amp;serverTimezone=UTC"/>
