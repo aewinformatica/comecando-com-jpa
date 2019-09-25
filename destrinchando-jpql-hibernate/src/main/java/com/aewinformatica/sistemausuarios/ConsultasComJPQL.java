@@ -22,7 +22,8 @@ public class ConsultasComJPQL {
 		EntityManager entityManager = entityManagerFactory.createEntityManager();
 		
 //		primeirasConsultas(entityManager);
-		EscolhendoORetorno(entityManager);
+//		EscolhendoORetorno(entityManager);
+		FazendoProjecoes(entityManager);
 		
 					  entityManager.close();
 					  entityManagerFactory.close();
@@ -76,5 +77,15 @@ public class ConsultasComJPQL {
 	    List<String> ListaNom = typedQueryNom.getResultList();
 	    
 	   ListaNom.forEach(nome->System.out.println(nome));
+	}
+	
+	public static void FazendoProjecoes(EntityManager entityManager) {
+		
+		String jpqlArr = "select id, login, nome from Usuario";
+		
+		TypedQuery<Object[]>typedQueryArr = entityManager.createQuery(jpqlArr,Object[].class);
+		List<Object[]>listaArr = typedQueryArr.getResultList();
+		
+		listaArr.forEach(arr->System.out.println(String.format("%s, %s, %s", arr)));
 	}
 }
