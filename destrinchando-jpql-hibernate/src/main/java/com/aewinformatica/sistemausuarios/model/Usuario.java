@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -20,6 +21,9 @@ public class Usuario {
     private String nome;
 
     private LocalDateTime ultimoAcesso;
+    
+    @ManyToOne
+    private Dominio dominio;
 
 	/**
 	 * @return the id
@@ -89,6 +93,20 @@ public class Usuario {
 	 */
 	public void setUltimoAcesso(LocalDateTime ultimoAcesso) {
 		this.ultimoAcesso = ultimoAcesso;
+	}
+
+	/**
+	 * @return the dominio
+	 */
+	public Dominio getDominio() {
+		return dominio;
+	}
+
+	/**
+	 * @param dominio the dominio to set
+	 */
+	public void setDominio(Dominio dominio) {
+		this.dominio = dominio;
 	}
 
 	/* (non-Javadoc)

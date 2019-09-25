@@ -8,6 +8,7 @@ import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import com.aewinformatica.sistemausuarios.model.Dominio;
 import com.aewinformatica.sistemausuarios.model.Usuario;
 
 
@@ -20,13 +21,15 @@ public class ConsultasComJPQL {
 		
 		EntityManager entityManager = entityManagerFactory.createEntityManager();
 		
-		primeiraConsulta(entityManager);
+//		primeirasConsultas(entityManager);
+		EscolhendoORetorno(entityManager);
+		
 					  entityManager.close();
 					  entityManagerFactory.close();
 		
 	}
 	
-	public static void primeiraConsulta(EntityManager entityManager) {
+	public static void primeirasConsultas(EntityManager entityManager) {
 		
 		String jpql = "select u from Usuario u";
 		
@@ -54,5 +57,15 @@ public class ConsultasComJPQL {
 				
 				
 		
+	}
+	
+	public static void EscolhendoORetorno(EntityManager entityManager) {
+		
+		String jpql = "select u.dominio from Usuario u where u.id = 1";
+		
+		TypedQuery<Dominio>typedQuery = entityManager.createQuery(jpql,Dominio.class);
+		Dominio dominio =  typedQuery.getSingleResult();
+		
+				  System.out.println(dominio.getId() + ", " + dominio.getNome());
 	}
 }
