@@ -1,5 +1,6 @@
 package com.aewinformatica.sistemausuarios;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -187,16 +188,29 @@ public class ConsultasComJPQL {
 	public static void filtrandoRegistros(EntityManager entityManager) {
 		
 		//TIPOS DE FILTROS : LIKE , IS NULL , IS EMPTY, BETWEEN, >, <, >=, <=, =, <>
+		// IS NULL = select u from Usuario u where u.senha is null
+		// IS EMPTY = select d from Dominio d where d.usuarios is empty
 		
-//String jpql = "select u from Usuario u where u.nome like :nomeUsuario";//sem Concat do JPQL
-String jpql = "select u from Usuario u where u.nome like concat (:nomeUsuario, '%')";
+//String jpql = "select u from Usuario u where u.nome like :nomeUsuario";// LIKE sem Concat do JPQL
+		String jpql = "select u from Usuario u where u.nome like concat (:nomeUsuario, '%')";
 		
 		TypedQuery<Usuario>typedQuery = entityManager.createQuery(jpql, Usuario.class).
 				setParameter("nomeUsuario", "cal");
 //				setParameter("nomeUsuario", "cal%");//sem Concat do JPQL
 		
 		List<Usuario> lista = typedQuery.getResultList();
+		System.out.println("Select com LIKE e concat:");
 					  lista.forEach(u->System.out.println(u.getId() + ", " + u.getNome()));
+	
+		//FILTRO BETWEEN			  
+	   String jpqlBet = "select u from Usuario u where u.ultimoAcesso between :ontem and :hoje";
+	   TypedQuery<Usuario>typedQueryBet = entityManager.createQuery(jpqlBet,Usuario.class)
+               .setParameter("ontem", LocalDateTime.now().minusDays(1))
+               .setParameter("hoje", LocalDateTime.now());
+	   List<Usuario> listaBet = typedQueryBet.getResultList();
+	   System.out.println("Select com Between:");
+       listaBet.forEach(ub -> System.out.println(ub.getId() + ", " + ub.getNome()));
+	   					
 		
 	}
 }
