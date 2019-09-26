@@ -7,7 +7,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -38,8 +37,8 @@ public class ConsultasComCriteria {
 //		filtrandoRegistros(entityManager);
 //		utilizandoOperadoresLogicos(entityManager);
 //		utilizandoOperadorIn(entityManager);
-		ordenandoResultados(entityManager);
-//		paginandoResultados(entityManager);
+//		ordenandoResultados(entityManager);
+		paginandoResultados(entityManager);
 		
 		
 					  entityManager.close();
@@ -378,6 +377,23 @@ public class ConsultasComCriteria {
 	
 	public static void paginandoResultados(EntityManager entityManager) {
 		
+		
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+
+        CriteriaQuery<Usuario> criteriaQuery = criteriaBuilder.createQuery(Usuario.class);
+        Root<Usuario> root = criteriaQuery.from(Usuario.class);
+
+        criteriaQuery.select(root);
+        //no retorno do Typed query que se tem como paginar
+        TypedQuery<Usuario> typedQuery = entityManager.createQuery(criteriaQuery)
+							  //qual e o primeiro registro
+							  .setFirstResult(0) //PRIMEIRO = (PAGINA -1) * QTDE_POR_PAG
+							  //mostrar de 2 e 2
+							  .setMaxResults(2);
+        List<Usuario> lista = typedQuery.getResultList();
+        lista.forEach(u -> System.out.println(u.getId() + ", " + u.getNome()));
+        
+		/*
 		String jpql = "select u from Usuario u";
 		
 		TypedQuery<Usuario>typedQuery = entityManager.createQuery(jpql, Usuario.class)
@@ -387,7 +403,7 @@ public class ConsultasComCriteria {
 						  .setMaxResults(2);
 		List<Usuario> lista = typedQuery.getResultList();
 					  lista.forEach(u->System.out.println(u.getId() + ", " + u.getNome()));
-					
+		*/			
 		
 	}
 }
