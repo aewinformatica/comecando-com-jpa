@@ -9,7 +9,7 @@ public class Funcionario {
     @Id
     private Integer id;
 
-//    @Version
+    @Version
     private Integer versao;
 
     private String nome;
