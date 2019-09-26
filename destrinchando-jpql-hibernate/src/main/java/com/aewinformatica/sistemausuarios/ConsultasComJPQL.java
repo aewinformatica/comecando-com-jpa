@@ -1,6 +1,7 @@
 package com.aewinformatica.sistemausuarios;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -32,7 +33,8 @@ public class ConsultasComJPQL {
 //		FazendoLeftJoin(entityManager);
 //		carregamentoComJoinFetch(entityManager);
 //		filtrandoRegistros(entityManager);
-		utilizandoOperadoresLogicos(entityManager);
+//		utilizandoOperadoresLogicos(entityManager);
+		utilizandoOperadorIn(entityManager);
 		
 					  entityManager.close();
 					  entityManagerFactory.close();
@@ -239,6 +241,17 @@ public class ConsultasComJPQL {
 		List<Usuario> listaOR = typedQueryOR.getResultList();
 		 System.out.println("Select com OR e IS NULL:");
 					  listaOR.forEach(uo->System.out.println(uo.getId() + ", " + uo.getNome()));
+		
+	}
+	public static void utilizandoOperadorIn(EntityManager entityManager) {
+		
+		String jpql = "select u from Usuario u where u.id in (:ids)";
+		
+		TypedQuery<Usuario>typedQuery = entityManager.createQuery(jpql, Usuario.class)
+							//passando uma lista de arrays para filtrar o usuario de codigo 1 e 2
+						   .setParameter("ids", Arrays.asList(1,2));
+		List<Usuario> lista = typedQuery.getResultList();
+					  lista.forEach(u->System.out.println(u.getId() + ", " + u.getNome()));
 		
 	}
 }
