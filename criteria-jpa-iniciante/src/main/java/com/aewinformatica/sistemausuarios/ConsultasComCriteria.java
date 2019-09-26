@@ -144,7 +144,7 @@ public class ConsultasComCriteria {
         //validando o tipo da Query
         TypedQuery<Object[]> typedQuery = entityManager.createQuery(criteriaQuery);
         List<Object[]> listaArr = typedQuery.getResultList();
-        System.out.println("Imprimento lista de Objects[] :");
+        System.out.println("Imprimindo lista de Objects[] :");
         listaArr.forEach(arr->System.out.println(String.format("%s, %s, %s", arr)));
         
         //Projeções com DTO
@@ -193,9 +193,23 @@ public class ConsultasComCriteria {
         //validando o tipo de query criada
         TypedQuery<Usuario> typedQuery = entityManager.createQuery(criteriaQuery);
         Usuario usuario = typedQuery.getSingleResult();
-        					System.out.println("Imprimindo usuario Consutado com paramentro id :");
+        					System.out.println("Imprimindo usuario Consultado com paramentro id :");
         					System.out.println(usuario.getId() + ", " + usuario.getNome());
-		
+        					
+        //passando o parametro login
+        CriteriaQuery<Usuario> criteriaQueryLogin = criteriaBuilder.createQuery(Usuario.class);
+        Root<Usuario> rootLogin = criteriaQueryLogin.from(Usuario.class);
+
+        criteriaQueryLogin.select(root)
+        			 //usando o criteriaBuilder para usar o comparador = e passando o atributo  login da classe usuario e o valor iria
+        			 .where(criteriaBuilder.equal(rootLogin.get("login"), "ria"));
+        
+        //validando o tipo de query criada - criteriaQueryLogin
+        TypedQuery<Usuario> typedQueryLogin = entityManager.createQuery(criteriaQueryLogin);
+        Usuario usuarioLogin = typedQueryLogin.getSingleResult();
+        					System.out.println("Imprimindo usuario Consultado com paramentro login ria :");
+        					System.out.println(usuarioLogin.getId() + ", " + usuarioLogin.getNome());
+
 		/*
 		//parametro IdUsuario
 		String jpql = "select u from Usuario u where u.id = :idUsuario";
