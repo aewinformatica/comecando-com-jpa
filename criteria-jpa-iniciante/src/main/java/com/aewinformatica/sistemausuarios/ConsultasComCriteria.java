@@ -132,6 +132,8 @@ public class ConsultasComCriteria {
 	public static void FazendoProjecoes(EntityManager entityManager) {
 		
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		
+		
 		//retorna um array de objects -  Object[]
         CriteriaQuery<Object[]> criteriaQuery = criteriaBuilder.createQuery(Object[].class);
         Root<Usuario> root = criteriaQuery.from(Usuario.class);
@@ -142,7 +144,24 @@ public class ConsultasComCriteria {
         //validando o tipo da Query
         TypedQuery<Object[]> typedQuery = entityManager.createQuery(criteriaQuery);
         List<Object[]> listaArr = typedQuery.getResultList();
+        System.out.println("Imprimento lista de Objects[] :");
         listaArr.forEach(arr->System.out.println(String.format("%s, %s, %s", arr)));
+        
+        //Projeções com DTO
+        CriteriaQuery<UsuarioDTO> criteriaQueryDTO = criteriaBuilder.createQuery(UsuarioDTO.class);
+        Root<Usuario> rootDTO = criteriaQueryDTO.from(Usuario.class);
+
+        //utilizar select e construct do criateriaBuilder para contruir o DTO com seus atributos
+        criteriaQueryDTO.select(criteriaBuilder.construct(UsuarioDTO.class,
+        					 rootDTO.get("id"),rootDTO.get("login"),rootDTO.get("nome") ));
+        
+        //validando o tipo da Query recebendo lista de UsuarioDTO
+        TypedQuery<UsuarioDTO> typedQueryDTO = entityManager.createQuery(criteriaQueryDTO);
+        List<UsuarioDTO> listaDTO = typedQueryDTO.getResultList();
+        System.out.println("Imprimento lista de UsuariosDTO :");
+        listaDTO.forEach(u -> System.out.println("DTO: " + u.getId() + ", " + u.getNome()));
+
+        
         
 		/*
 		String jpqlArr = "select id, login, nome from Usuario";
