@@ -30,8 +30,8 @@ public class ConsultasComCriteria {
 		
 //		primeiraConsulta(entityManager);
 //		EscolhendoORetorno(entityManager);
-		FazendoProjecoes(entityManager);
-//		PassandoParametros(entityManager);
+//		FazendoProjecoes(entityManager);
+		PassandoParametros(entityManager);
 //		FazendoJoins(entityManager);
 //		FazendoLeftJoin(entityManager);
 //		carregamentoComJoinFetch(entityManager);
@@ -158,7 +158,7 @@ public class ConsultasComCriteria {
         //validando o tipo da Query recebendo lista de UsuarioDTO
         TypedQuery<UsuarioDTO> typedQueryDTO = entityManager.createQuery(criteriaQueryDTO);
         List<UsuarioDTO> listaDTO = typedQueryDTO.getResultList();
-        System.out.println("Imprimento lista de UsuariosDTO :");
+        System.out.println("Imprimindo lista de UsuariosDTO :");
         listaDTO.forEach(u -> System.out.println("DTO: " + u.getId() + ", " + u.getNome()));
 
         
@@ -181,6 +181,22 @@ public class ConsultasComCriteria {
 	
 	public static void PassandoParametros(EntityManager entityManager) {
 		
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+
+        CriteriaQuery<Usuario> criteriaQuery = criteriaBuilder.createQuery(Usuario.class);
+        Root<Usuario> root = criteriaQuery.from(Usuario.class);
+
+        criteriaQuery.select(root)
+        			 //usando o criteriaBuilder para usar o comparador = e passando o atributo  id da classe usuario e o valor 1
+        			 .where(criteriaBuilder.equal(root.get("id"), 1));
+        
+        //validando o tipo de query criada
+        TypedQuery<Usuario> typedQuery = entityManager.createQuery(criteriaQuery);
+        Usuario usuario = typedQuery.getSingleResult();
+        					System.out.println("Imprimindo usuario Consutado com paramentro id :");
+        					System.out.println(usuario.getId() + ", " + usuario.getNome());
+		
+		/*
 		//parametro IdUsuario
 		String jpql = "select u from Usuario u where u.id = :idUsuario";
 		
@@ -205,7 +221,7 @@ public class ConsultasComCriteria {
 					Usuario usuarioLog = typedQueryLog.getSingleResult();
 					
 	   System.out.println(usuarioLog.getId() + ", " + usuarioLog.getNome());
-		
+		*/
 	}
 	
 	public static void FazendoJoins(EntityManager entityManager) {
