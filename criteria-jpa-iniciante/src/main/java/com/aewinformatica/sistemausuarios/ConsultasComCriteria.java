@@ -28,8 +28,8 @@ public class ConsultasComCriteria {
 		
 		EntityManager entityManager = entityManagerFactory.createEntityManager();
 		
-		primeiraConsulta(entityManager);
-//		EscolhendoORetorno(entityManager);
+//		primeiraConsulta(entityManager);
+		EscolhendoORetorno(entityManager);
 //		FazendoProjecoes(entityManager);
 //		PassandoParametros(entityManager);
 //		FazendoJoins(entityManager);
@@ -75,6 +75,25 @@ public class ConsultasComCriteria {
 	
 	public static void EscolhendoORetorno(EntityManager entityManager) {
 		
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+
+        //retornar um Dominio
+        CriteriaQuery<Dominio> criteriaQuery = criteriaBuilder.createQuery(Dominio.class);
+        //tabela raiz usuario  onde tem o dominio_id
+        Root<Usuario> root = criteriaQuery.from(Usuario.class);
+        //dominio e o atributo da Classe usuario que foi mapeada / ideal usar metamodelGen 
+        criteriaQuery.select(root.get("dominio"));
+        
+        //Criando a query tipada com os criterios de retorno
+        TypedQuery<Dominio> typedQuery = entityManager.createQuery(criteriaQuery);
+        
+        //recuperando a lista de dominios
+        List<Dominio> lista = typedQuery.getResultList();
+        System.out.println("Retornando o Dominio:");
+        //imprimindo a lista com codigo e nome dos dominios
+        lista.forEach(d -> System.out.println(d.getId() + ", " + d.getNome()));
+		
+		/*
 		String jpql = "select u.dominio from Usuario u where u.id = 1";
 		
 		TypedQuery<Dominio>typedQuery = entityManager.createQuery(jpql,Dominio.class);
@@ -88,8 +107,8 @@ public class ConsultasComCriteria {
 	    TypedQuery<String> typedQueryNom = entityManager.createQuery(jpqlNom,String.class);
 	    
 	    List<String> ListaNom = typedQueryNom.getResultList();
-	    
-	   ListaNom.forEach(nome->System.out.println(nome));
+	    			 ListaNom.forEach(nome->System.out.println(nome));
+	    */
 	}
 	
 	public static void FazendoProjecoes(EntityManager entityManager) {
