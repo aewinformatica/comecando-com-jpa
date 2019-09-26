@@ -29,7 +29,8 @@ public class ConsultasComJPQL {
 //		PassandoParametros(entityManager);
 //		FazendoJoins(entityManager);
 //		FazendoLeftJoin(entityManager);
-		carregamentoComJoinFetch(entityManager);
+//		carregamentoComJoinFetch(entityManager);
+		filtrandoRegistros(entityManager);
 		
 					  entityManager.close();
 					  entityManagerFactory.close();
@@ -180,6 +181,22 @@ public class ConsultasComJPQL {
 		List<Usuario> lista = typedQuery.getResultList();
 					  lista.forEach(u->System.out.println(u.getId() + ", " + u.getNome()));
 					
+		
+	}
+	
+	public static void filtrandoRegistros(EntityManager entityManager) {
+		
+		//TIPOS DE FILTROS : LIKE , IS NULL , IS EMPTY, BETWEEN, >, <, >=, <=, =, <>
+		
+//String jpql = "select u from Usuario u where u.nome like :nomeUsuario";//sem Concat do JPQL
+String jpql = "select u from Usuario u where u.nome like concat (:nomeUsuario, '%')";
+		
+		TypedQuery<Usuario>typedQuery = entityManager.createQuery(jpql, Usuario.class).
+				setParameter("nomeUsuario", "cal");
+//				setParameter("nomeUsuario", "cal%");//sem Concat do JPQL
+		
+		List<Usuario> lista = typedQuery.getResultList();
+					  lista.forEach(u->System.out.println(u.getId() + ", " + u.getNome()));
 		
 	}
 }
