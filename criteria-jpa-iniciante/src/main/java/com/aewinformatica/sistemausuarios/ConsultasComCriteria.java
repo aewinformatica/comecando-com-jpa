@@ -31,14 +31,14 @@ public class ConsultasComCriteria {
 //		primeiraConsulta(entityManager);
 //		EscolhendoORetorno(entityManager);
 //		FazendoProjecoes(entityManager);
-		PassandoParametros(entityManager);
+//		PassandoParametros(entityManager);
 //		FazendoJoins(entityManager);
 //		FazendoLeftJoin(entityManager);
 //		carregamentoComJoinFetch(entityManager);
 //		filtrandoRegistros(entityManager);
 //		utilizandoOperadoresLogicos(entityManager);
 //		utilizandoOperadorIn(entityManager);
-//		ordenandoResultados(entityManager);
+		ordenandoResultados(entityManager);
 //		paginandoResultados(entityManager);
 		
 		
@@ -353,13 +353,27 @@ public class ConsultasComCriteria {
 	
 	public static void ordenandoResultados(EntityManager entityManager) {
 		
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+
+        CriteriaQuery<Usuario> criteriaQuery = criteriaBuilder.createQuery(Usuario.class);
+        Root<Usuario> root = criteriaQuery.from(Usuario.class);
+
+        criteriaQuery.select(root)
+        			 //passando atraves do criteriaBuilder o atributo que vai ser usado para ordenar
+        			.orderBy(criteriaBuilder.asc(root.get("nome")));
+
+        TypedQuery<Usuario> typedQuery = entityManager.createQuery(criteriaQuery);
+        List<Usuario> lista = typedQuery.getResultList();
+        lista.forEach(u -> System.out.println(u.getId() + ", " + u.getNome()));
+		
+		/*
 		String jpql = "select u from Usuario u order by u.nome";
 		
 		TypedQuery<Usuario>typedQuery = entityManager.createQuery(jpql, Usuario.class);
 		List<Usuario> lista = typedQuery.getResultList();
 					  lista.forEach(u->System.out.println(u.getId() + ", " + u.getNome()));
 					
-		
+		*/
 	}
 	
 	public static void paginandoResultados(EntityManager entityManager) {
