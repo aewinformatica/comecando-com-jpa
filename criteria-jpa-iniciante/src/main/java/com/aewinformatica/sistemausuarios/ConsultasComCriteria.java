@@ -92,6 +92,24 @@ public class ConsultasComCriteria {
         System.out.println("Retornando o Dominio:");
         //imprimindo a lista com codigo e nome dos dominios
         lista.forEach(d -> System.out.println(d.getId() + ", " + d.getNome()));
+        
+        
+        //retornar uma String
+        CriteriaQuery<String> criteriaQueryNom = criteriaBuilder.createQuery(String.class);
+        //tabela raiz usuario  onde tem o nome
+        Root<Usuario> rootNom = criteriaQueryNom.from(Usuario.class);
+        //nome e o atributo da Classe usuario que foi mapeada / ideal usar metamodelGen 
+        criteriaQueryNom.select(rootNom.get("nome"));
+        
+        //Criando a query tipada com os criterios de retorno
+        TypedQuery<String> typedQueryNom = entityManager.createQuery(criteriaQueryNom);
+        
+        //recuperando a lista de nomes
+        List<String> listaNom = typedQueryNom.getResultList();
+        System.out.println("Retornando os Nomes:");
+        //imprimindo a lista com codigo e nome dos dominios
+        listaNom.forEach(nome -> System.out.println("Nome : " + nome));
+        
 		
 		/*
 		String jpql = "select u.dominio from Usuario u where u.id = 1";
