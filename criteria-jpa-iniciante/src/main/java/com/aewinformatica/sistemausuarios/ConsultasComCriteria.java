@@ -29,8 +29,8 @@ public class ConsultasComCriteria {
 		EntityManager entityManager = entityManagerFactory.createEntityManager();
 		
 //		primeiraConsulta(entityManager);
-		EscolhendoORetorno(entityManager);
-//		FazendoProjecoes(entityManager);
+//		EscolhendoORetorno(entityManager);
+		FazendoProjecoes(entityManager);
 //		PassandoParametros(entityManager);
 //		FazendoJoins(entityManager);
 //		FazendoLeftJoin(entityManager);
@@ -131,6 +131,20 @@ public class ConsultasComCriteria {
 	
 	public static void FazendoProjecoes(EntityManager entityManager) {
 		
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		//retorna um array de objects -  Object[]
+        CriteriaQuery<Object[]> criteriaQuery = criteriaBuilder.createQuery(Object[].class);
+        Root<Usuario> root = criteriaQuery.from(Usuario.class);
+
+        //utilizar multiselect
+        criteriaQuery.multiselect(root.get("id"),root.get("login"),root.get("nome"));
+        
+        //validando o tipo da Query
+        TypedQuery<Object[]> typedQuery = entityManager.createQuery(criteriaQuery);
+        List<Object[]> listaArr = typedQuery.getResultList();
+        listaArr.forEach(arr->System.out.println(String.format("%s, %s, %s", arr)));
+        
+		/*
 		String jpqlArr = "select id, login, nome from Usuario";
 		
 		TypedQuery<Object[]>typedQueryArr = entityManager.createQuery(jpqlArr,Object[].class);
@@ -142,7 +156,7 @@ public class ConsultasComCriteria {
                 "from Usuario";
         TypedQuery<UsuarioDTO> typedQueryDto = entityManager.createQuery(jpqlDto, UsuarioDTO.class);
         List<UsuarioDTO> listaDto = typedQueryDto.getResultList();
-        listaDto.forEach(u -> System.out.println("DTO: " + u.getId() + ", " + u.getNome()));
+        listaDto.forEach(u -> System.out.println("DTO: " + u.getId() + ", " + u.getNome()));*/
 		
 	}
 	
