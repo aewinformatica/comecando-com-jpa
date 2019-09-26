@@ -31,7 +31,8 @@ public class ConsultasComJPQL {
 //		FazendoJoins(entityManager);
 //		FazendoLeftJoin(entityManager);
 //		carregamentoComJoinFetch(entityManager);
-		filtrandoRegistros(entityManager);
+//		filtrandoRegistros(entityManager);
+		utilizandoOperadoresLogicos(entityManager);
 		
 					  entityManager.close();
 					  entityManagerFactory.close();
@@ -211,6 +212,33 @@ public class ConsultasComJPQL {
 	   System.out.println("Select com Between:");
        listaBet.forEach(ub -> System.out.println(ub.getId() + ", " + ub.getNome()));
 	   					
+		
+	}
+	
+	public static void utilizandoOperadoresLogicos(EntityManager entityManager) {
+		
+		//UTILIZANDO >
+		String jpql = "select u from Usuario u where u.ultimoAcesso > :ontem and ultimoAcesso < :hoje";
+		
+		TypedQuery<Usuario>typedQuery = entityManager.createQuery(jpql, Usuario.class)
+	                       .setParameter("ontem", LocalDateTime.now().minusDays(1))
+	                       .setParameter("hoje", LocalDateTime.now());
+		List<Usuario> lista = typedQuery.getResultList();
+		System.out.println("Select com > :");
+					  lista.forEach(u->System.out.println(u.getId() + ", " + u.getNome()));
+					  
+					  
+		//UTILIZANDO OR e IS NULL
+		String jpqlOR = "select u from Usuario u where"
+				+ " (u.ultimoAcesso > :ontem and ultimoAcesso < :hoje)"
+				+ "or ultimoAcesso is null";
+		
+		TypedQuery<Usuario>typedQueryOR = entityManager.createQuery(jpqlOR, Usuario.class)
+	                       .setParameter("ontem", LocalDateTime.now().minusDays(1))
+	                       .setParameter("hoje", LocalDateTime.now());
+		List<Usuario> listaOR = typedQueryOR.getResultList();
+		 System.out.println("Select com OR e IS NULL:");
+					  listaOR.forEach(uo->System.out.println(uo.getId() + ", " + uo.getNome()));
 		
 	}
 }
