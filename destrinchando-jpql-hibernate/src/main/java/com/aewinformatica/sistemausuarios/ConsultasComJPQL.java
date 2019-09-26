@@ -28,13 +28,18 @@ public class ConsultasComJPQL {
 //		FazendoProjecoes(entityManager);
 //		PassandoParametros(entityManager);
 //		FazendoJoins(entityManager);
-		FazendoLeftJoin(entityManager);
+//		FazendoLeftJoin(entityManager);
+		carregamentoComJoinFetch(entityManager);
 		
 					  entityManager.close();
 					  entityManagerFactory.close();
 		
 	}
 	
+
+
+
+
 
 
 	public static void primeirasConsultas(EntityManager entityManager) {
@@ -164,6 +169,17 @@ public class ConsultasComJPQL {
 						 System.out.println(out);
 		});
 		
+		
+	}
+	
+	public static void carregamentoComJoinFetch(EntityManager entityManager) {
+		
+		String jpql = "select u from Usuario u join fetch u.configuracao join fetch u.dominio";
+		
+		TypedQuery<Usuario>typedQuery = entityManager.createQuery(jpql, Usuario.class);
+		List<Usuario> lista = typedQuery.getResultList();
+					  lista.forEach(u->System.out.println(u.getId() + ", " + u.getNome()));
+					
 		
 	}
 }
