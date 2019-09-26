@@ -35,7 +35,8 @@ public class ConsultasComJPQL {
 //		filtrandoRegistros(entityManager);
 //		utilizandoOperadoresLogicos(entityManager);
 //		utilizandoOperadorIn(entityManager);
-		ordenandoResultados(entityManager);
+//		ordenandoResultados(entityManager);
+		paginandoResultados(entityManager);
 		
 		
 					  entityManager.close();
@@ -262,6 +263,21 @@ public class ConsultasComJPQL {
 		String jpql = "select u from Usuario u order by u.nome";
 		
 		TypedQuery<Usuario>typedQuery = entityManager.createQuery(jpql, Usuario.class);
+		List<Usuario> lista = typedQuery.getResultList();
+					  lista.forEach(u->System.out.println(u.getId() + ", " + u.getNome()));
+					
+		
+	}
+	
+	public static void paginandoResultados(EntityManager entityManager) {
+		
+		String jpql = "select u from Usuario u";
+		
+		TypedQuery<Usuario>typedQuery = entityManager.createQuery(jpql, Usuario.class)
+						  //qual e o primeiro registro
+						  .setFirstResult(0)
+						  //mostrar de 2 e 2
+						  .setMaxResults(2);
 		List<Usuario> lista = typedQuery.getResultList();
 					  lista.forEach(u->System.out.println(u.getId() + ", " + u.getNome()));
 					
